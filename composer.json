@@ -1,0 +1,18 @@
+{
+    "name": "OpenConextApps/simplesamlphp-module-stepupsfo",
+    "description": "OpenConext Stepup Second Factor Only Authproc Filter for SimpleSAMLphp",
+    "keywords": [ "openconext", "stepup", "sfo", "mfa", "simplesamlphp", "saml" ],
+    "homepage": "https://github.com/OpenConextApps/simplesamlphp-module-stepupsfo",
+    "license": "LGPL-2.1",
+    "type": "simplesamlphp-module",
+    "require": {
+        "simplesamlphp/composer-module-installer": "~1.0"
+    },
+    "require-dev": {
+        "simplesamlphp/simplesamlphp": "1.14"
+    },
+    "support": {
+        "issues": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo/issues",
+        "source": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo"
+    }
+}
