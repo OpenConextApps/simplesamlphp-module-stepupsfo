@@ -1,0 +1,16 @@
+Source: simplesamlphp-module-stepupsfo
+Section: web
+Priority: optional
+Maintainer: Thijs Kinkhorst <thijs@debian.org>
+Build-Depends: debhelper (>= 9)
+Homepage: https://github.com/OpenConextApps/simplesamlphp-module-stepupsfo
+Vcs-Git: https://github.com/OpenConextApps/simplesamlphp-module-stepupsfo.git
+Standards-Version: 4.1.4
+
+Package: simplesamlphp-module-stepupsfo
+Architecture: all 
+Depends: simplesamlphp, ${misc:Depends}
+Description: OpenConext Stepup Second Factor Only Authproc Filter for SimpleSAMLphp
+ Module for SimpleSAMLphp which provides an authentication processing filter
+ that uses OpenConext Stepup's 'Second Factor Only' API to authenticate the
+ second factor for a user when the first factor has been verified locally.
