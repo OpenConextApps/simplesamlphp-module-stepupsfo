@@ -1,3 +1,9 @@
+simplesamlphp-module-stepupsfo (20180501) unstable; urgency=medium
+
+  * Actually default-enable the module.
+
+ -- Thijs Kinkhorst <thijs@debian.org>  Tue, 01 May 2018 08:29:25 +0000
+
 simplesamlphp-module-stepupsfo (20180430) unstable; urgency=low
 
   * Initial release.

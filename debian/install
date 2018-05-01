@@ -1,3 +1,4 @@
 lib	usr/share/simplesamlphp/modules/stepupsfo
 templates	usr/share/simplesamlphp/modules/stepupsfo
 www	usr/share/simplesamlphp/modules/stepupsfo
+default-enable usr/share/simplesamlphp/modules/stepupsfo
