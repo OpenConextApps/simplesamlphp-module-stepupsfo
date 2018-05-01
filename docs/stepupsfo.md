@@ -71,3 +71,8 @@ and stored in the collabPersonId attribute. SFO is configured to read that attri
             'loa' => 'http://pilot.surfconext.nl/assurance/sfo-level2'
         ),
     )
+
+You supply the following to the persons running the SFO service:
+- The entityid and certificate configured in the authsource above.
+- The namespace of the subjectattribute you're using (likely something like `urn:collab:person:example.org:`).
+- The AssertionConsumerService location: `<your ssp base url>/module.php/stepupsfo/acs.php`.
