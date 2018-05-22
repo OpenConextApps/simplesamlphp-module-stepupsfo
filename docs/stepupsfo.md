@@ -68,7 +68,11 @@ and stored in the collabPersonId attribute. SFO is configured to read that attri
             'idpEntityid' => 'https://gateway.pilot.stepup.surfconext.nl/second-factor-only/metadata',
 
             // desired minimum loa
-            'loa' => 'http://pilot.surfconext.nl/assurance/sfo-level2'
+            'loa' => 'http://pilot.surfconext.nl/assurance/sfo-level2',
+
+            // optional: list of remote entityids/requesterids for which SFO
+            // should NOT be performed, instead they will just pass through.
+            // 'skipentities' => [],
         ),
     )
 
