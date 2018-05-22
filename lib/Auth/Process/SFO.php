@@ -12,6 +12,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
     private $idpMetadata;
 
     private $subjectidattribute;
+    private $skipentities = [];
 
     /**
      * Initialize this filter.
@@ -26,6 +27,9 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
         assert(is_array($config));
 
         $this->subjectidattribute = $config['subjectattribute'];
+        if ( isset($config['skipentities']) ) {
+            $this->skipentities = $config['skipentities'];
+        }
 
         $this->idpMetadata = $this->getIdPMetadata($config['idpEntityid']);
 
@@ -40,6 +44,13 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
      */
     public function process(&$state)
     {
+        foreach($this->skipentities as $skip) {
+            if ($skip === $state['SPMetadata']['entityid'] || in_array($skip, $state['saml:RequesterID'])) {
+                SimpleSAML\Logger::info('SFO - skipping SFO for entity ' . var_export($skip, true));
+                return;
+            }
+        }
+
         $state['sfo:sp:metadata'] = $this->metadata;
         $state['sfo:idp:entityid'] = $this->idpMetadata->getString('entityid');
         $samlstateid = SimpleSAML_Auth_State::saveState($state, 'stepupsfo:pre');
@@ -103,7 +114,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
             var_export($idpMetadata->getString('entityid'), true). ' with id ' . $ar->getId());
 
         $dst = $idpMetadata->getDefaultEndpoint('SingleSignOnService',
-                array( \SAML2\Constants::BINDING_HTTP_REDIRECT )
+                [ \SAML2\Constants::BINDING_HTTP_REDIRECT ]
             );
 
         $ar->setDestination($dst['Location']);
