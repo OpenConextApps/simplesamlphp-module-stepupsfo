@@ -6,10 +6,8 @@
     "license": "LGPL-2.1",
     "type": "simplesamlphp-module",
     "require": {
-        "simplesamlphp/composer-module-installer": "~1.0"
-    },
-    "require-dev": {
-        "simplesamlphp/simplesamlphp": "1.14"
+        "simplesamlphp/composer-module-installer": "~1.0",
+        "simplesamlphp/simplesamlphp": ">=1.15"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo/issues",
