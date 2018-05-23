@@ -33,14 +33,17 @@ feedback message when a user does not have a token registered.
         'sfo:selfserviceUrl' => 'https://selfservice.pilot.stepup.surfconext.nl/',
     );
 
-Configuration of the authproc filter could be done in `saml20-idp-hosted.php` so
-it is ran after the first factor has been authenticated. In the authproc's confg,
-you will specify the name of the attribute that contains the exact collabPersonId
-to send to the SFO endpoint, which looks like `urn:collab:person:example.org:jdoe`.
-You can construct this from existing attributes e.g. with the `core:AttributeAlter`
-filter. In the example the existing uid attribute is prefixed with the right urn
-and stored in the collabPersonId attribute. SFO is configured to read that attribute.
+Configuration of the authproc filter could be done in any place that supports
+authproc filters, so it runs after the first factor has been authenticated.
+You can add it e.g. to `saml20-idp-hosted` authproc to protect an entire IdP,
+or if you use it to protect an SP to your `saml20-sp-hosted` configuration.
 
+In the authproc's confg, you will specify the name of the attribute that
+contains the exact collabPersonId to send to the SFO endpoint, which looks like
+`urn:collab:person:example.org:jdoe`.  You can construct this from existing
+attributes e.g. with the `core:AttributeAlter` filter. In the example the
+existing uid attribute is prefixed with the right urn and stored in the
+collabPersonId attribute. SFO is configured to read that attribute.
 
     'authproc' => array(
         // prepare attribute for sfo
@@ -76,7 +79,12 @@ and stored in the collabPersonId attribute. SFO is configured to read that attri
         ),
     )
 
-You supply the following to the persons running the SFO service:
+If you use the module to protect an IdP, you will want to exclude at least the
+token registration portal via the `skipentities` setting, if that portal uses
+said IdP for authentication.
+
+After setting the configuration up, you supply the following to the persons
+running the SFO service:
 - The entityid and certificate configured in the authsource above.
 - The namespace of the subjectattribute you're using (likely something like `urn:collab:person:example.org:`).
 - The AssertionConsumerService location: `<your ssp base url>/module.php/stepupsfo/acs.php`.
