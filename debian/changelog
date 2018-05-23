@@ -1,3 +1,9 @@
+simplesamlphp-module-stepupsfo (20180522) unstable; urgency=medium
+
+  * New release: add skipentities option.
+
+ -- Thijs Kinkhorst <thijs@debian.org>  Tue, 22 May 2018 09:22:07 +0000
+
 simplesamlphp-module-stepupsfo (20180501) unstable; urgency=medium
 
   * Actually default-enable the module.
