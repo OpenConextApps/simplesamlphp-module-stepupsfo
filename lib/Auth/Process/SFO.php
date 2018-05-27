@@ -20,11 +20,9 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
      * @param array $config  Configuration information about this filter.
      * @param mixed $reserved  For future use.
      */
-    public function __construct($config, $reserved)
+    public function __construct(array $config, $reserved)
     {
         parent::__construct($config, $reserved);
-
-        assert(is_array($config));
 
         $this->subjectidattribute = $config['subjectattribute'];
         if ( isset($config['skipentities']) ) {
@@ -98,10 +96,10 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
      * Send a SAML2 SSO request to the SFO IdP.
      *
      * @param SimpleSAML_Configuration $idpMetadata  The metadata of the IdP.
-     * @param NameID $nameid The unspecified NameID of the principal to perform SFO for.
+     * @param \SAML2\XML\saml\NameID $nameid The unspecified NameID of the principal to perform SFO for.
      * @param string $relay  RelayState to pass
      */
-    private function startSFO(SimpleSAML_Configuration $idpMetadata, $nameid, $relay)
+    private function startSFO(SimpleSAML_Configuration $idpMetadata, \SAML2\XML\saml\NameID $nameid, $relay)
     {
         $ar = sspmod_saml_Message::buildAuthnRequest($this->metadata, $idpMetadata);
 
@@ -134,7 +132,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
      * @param \SAML2\Binding $binding  The binding.
      * @param \SAML2\AuthnRequest  $ar  The authentication request.
      */
-    private function sendSAML2AuthnRequest( \SAML2\Binding $binding, \SAML2\AuthnRequest $ar)
+    private function sendSAML2AuthnRequest(\SAML2\Binding $binding, \SAML2\AuthnRequest $ar)
     {
         $binding->send($ar);
         assert(false);
