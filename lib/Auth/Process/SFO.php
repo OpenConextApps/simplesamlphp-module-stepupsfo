@@ -45,7 +45,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
     public function process(&$state)
     {
         foreach($this->skipentities as $skip) {
-            if ($skip === $state['SPMetadata']['entityid'] || in_array($skip, $state['saml:RequesterID']), true) {
+            if ($skip === $state['SPMetadata']['entityid'] || in_array($skip, $state['saml:RequesterID'], true)) {
                 SimpleSAML\Logger::info('SFO - skipping SFO for entity ' . var_export($skip, true));
                 return;
             }
