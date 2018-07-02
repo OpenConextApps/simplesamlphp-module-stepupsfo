@@ -111,7 +111,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
         SimpleSAML\Logger::debug('Sending SAML 2 SFO AuthnRequest for ' . $nameid->value .  ' to ' .
             var_export($idpMetadata->getString('entityid'), true). ' with id ' . $ar->getId());
 
-        $dst = $idpMetadata->getDefaultEndpoint('SingleSignOnService',
+        $dst = $idpMetadata->getEndpointPrioritizedByBinding('SingleSignOnService',
                 [ \SAML2\Constants::BINDING_HTTP_REDIRECT ]
             );
 
