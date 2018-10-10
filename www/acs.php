@@ -7,6 +7,21 @@ use \SimpleSAML_Configuration as Configuration;
  * @package SimpleSAMLphp
  */
 
+function handleStatusResponse($exception, $selfserviceurl)
+{
+    // the status of the response wasn't "success"
+    SimpleSAML\Logger::debug('SFO - status response received, showing error page.');
+    $config = SimpleSAML_Configuration::getInstance();
+
+    $t = new SimpleSAML_XHTML_Template($config, 'stepupsfo:handlestatus.php');
+    $t->data['status'] = $exception->getStatus();
+    $t->data['subStatus'] = $exception->getSubStatus();
+    $t->data['statusMessage'] = $exception->getStatusMessage();
+    $t->data['selfserviceUrl'] = $selfserviceurl;
+    $t->show();
+    exit();
+}
+
 SimpleSAML\Logger::debug('SFO - receiving response');
 
 $b = \SAML2\Binding::getCurrentBinding();
@@ -54,17 +69,11 @@ try {
 try {
     $assertions = sspmod_saml_Message::processResponse($spMetadata, $idpMetadata, $response);
 } catch (sspmod_saml_Error $e) {
-    // the status of the response wasn't "success"
-    SimpleSAML\Logger::debug('SFO - status response received, showing error page.');
-    $config = SimpleSAML_Configuration::getInstance();
-
-    $t = new SimpleSAML_XHTML_Template($config, 'stepupsfo:handlestatus.php');
-    $t->data['status'] = $e->getStatus();
-    $t->data['subStatus'] = $e->getSubStatus();
-    $t->data['statusMessage'] = $e->getStatusMessage();
-    $t->data['selfserviceUrl'] = $idpMetadata->getString('sfo:selfserviceUrl', '');
-    $t->show();
-    exit();
+    // the status of the response wasn't "success" (SSP < 1.17)
+    handleStatusResponse($e, $idpMetadata->getString('sfo:selfserviceUrl', ''));
+} catch (SimpleSAML\Module\saml\Error $e) {
+    // the status of the response wasn't "success" (SSP >= 1.17)
+    handleStatusResponse($e, $idpMetadata->getString('sfo:selfserviceUrl', ''));
 }
 
 SimpleSAML\Logger::debug('SFO - successful response received, resume processing');

@@ -1,0 +1,36 @@
+{% set pagetitle = 'Error while performing second factor authentication'|trans %}
+{% extends "base.twig" %}
+{% block content %}
+
+<h2>{{ pagetitle }}</h2>
+
+{% if status == "urn:oasis:names:tc:SAML:2.0:status:Responder" and subStatus == "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed" %}
+
+	<p>{{ 'Authentication not successful:' | trans }}<br/><br/>
+
+	<strong>
+	    {{ statusMessage }}
+	</strong></p>
+
+{% elseif status == "urn:oasis:names:tc:SAML:2.0:status:Responder" and subStatus == "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext" %}
+
+	<p>{{ 'You could not be authenticated at the requested level.' | trans }}<br/>
+
+	{{ statusMessage }}</p>
+
+	<p>{{ 'Do you have a token registered with the required level?' | trans }}<br/><br/>
+	{% trans %}Please go to the <a href="{{ selfserviceUrl }}">Selfservice Registration Portal</a>
+	to review or enroll your token.{% endtrans %}</p>
+
+{% else %}
+
+	<p>Unexpected error occurred while performing second factor authentication.<br/><br/>
+	{{ status }}<br/>
+	{{ subStatus }}<br/>
+	{{ statusMessage }}</p>
+
+	<p>Please try again or contact your support desk.</p>
+
+{% endif %}
+
+{% endblock %}
