@@ -36,7 +36,7 @@ feedback message when a user does not have a token registered.
 Configuration of the authproc filter could be done in any place that supports
 authproc filters, so it runs after the first factor has been authenticated.
 You can add it e.g. to `saml20-idp-hosted` authproc to protect an entire IdP,
-or if you use it to protect an SP to your `saml20-sp-hosted` configuration.
+or if you use it to protect an SP to your `saml20-sp-remote` configuration.
 
 In the authproc's confg, you will specify the name of the attribute that
 contains the exact collabPersonId to send to the SFO endpoint, which looks like
