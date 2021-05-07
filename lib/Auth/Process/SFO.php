@@ -54,7 +54,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
         $samlstateid = SimpleSAML_Auth_State::saveState($state, 'stepupsfo:pre');
 
         if ( empty($state['Attributes'][$this->subjectidattribute]) ) {
-            throw new Exception("Subjectid " . $this->subjectid . " not found in attributes.");
+            throw new Exception("Subjectid " . $this->subjectidattribute . " not found in attributes.");
         }
 
         $subjectid = $state['Attributes'][$this->subjectidattribute][0];
