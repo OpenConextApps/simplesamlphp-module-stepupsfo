@@ -1,5 +1,5 @@
 {
-    "name": "OpenConextApps/simplesamlphp-module-stepupsfo",
+    "name": "openconextapps/simplesamlphp-module-stepupsfo",
     "description": "OpenConext Stepup Second Factor Only Authproc Filter for SimpleSAMLphp",
     "keywords": [ "openconext", "stepup", "sfo", "mfa", "simplesamlphp", "saml" ],
     "homepage": "https://github.com/OpenConextApps/simplesamlphp-module-stepupsfo",
