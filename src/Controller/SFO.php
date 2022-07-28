@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SimpleSAML\Module\stepupsfo\Controller;
 
+use Exception;
 use SAML2\Binding;
 use SAML2\HTTPPost;
 use SAML2\Response;
@@ -98,7 +99,7 @@ class SFO
             /* Not found. */
             throw new Error\Exception(sprintf(
                 'Could not find the metadata of SFO IdP with entity ID %s',
-                var_export($entityId, true)
+                var_export($idpEntityId, true)
             ));
         }
 
@@ -113,7 +114,7 @@ class SFO
             $t->data['status'] = $e->getStatus();
             $t->data['subStatus'] = $e->getSubStatus();
             $t->data['statusMessage'] = $e->getStatusMessage();
-            $t->data['selfserviceUrl'] = $idpMetadata->getString('sfo:selfserviceUrl', '');
+            $t->data['selfserviceUrl'] = $idpMetadata->getOptionalString('sfo:selfserviceUrl', '');
 
             return $t;
         }
