@@ -5,9 +5,32 @@
     "homepage": "https://github.com/OpenConextApps/simplesamlphp-module-stepupsfo",
     "license": "LGPL-2.1",
     "type": "simplesamlphp-module",
+    "config": {
+        "preferred-install": {
+            "simplesamlphp/simplesamlphp": "source",
+            "*": "dist"
+        },
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "simplesamlphp/composer-module-installer": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SimpleSAML\\Module\\stepupsfo\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleSAML\\Test\\Utils\\": "vendor/simplesamlphp/simplesamlphp/tests/Utils"
+        }
+    },
     "require": {
-        "simplesamlphp/composer-module-installer": "~1.1.8",
-        "simplesamlphp/simplesamlphp": "^2.0"
+        "simplesamlphp/composer-module-installer": "~1.1.8"
+    },
+    "require-dev": {
+        "simplesamlphp/simplesamlphp": "^2.0",
+        "simplesamlphp/simplesamlphp-test-framework": "^1.2.1"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo/issues",
