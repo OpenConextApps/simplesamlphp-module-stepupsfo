@@ -109,7 +109,7 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
         $ar->setNameId($nameid);
         $ar->setRelayState($relay);
 
-        SimpleSAML\Logger::debug('Sending SAML 2 SFO AuthnRequest for ' . $nameid->value .  ' to ' .
+        SimpleSAML\Logger::debug('Sending SAML 2 SFO AuthnRequest for ' . $nameid->getValue() .  ' to ' .
             var_export($idpMetadata->getString('entityid'), true). ' with id ' . $ar->getId());
 
         $dst = $idpMetadata->getEndpointPrioritizedByBinding('SingleSignOnService',
