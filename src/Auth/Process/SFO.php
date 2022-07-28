@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SimpleSAML\Module\stepup-sfo;
+namespace SimpleSAML\Module\stepupsfo;
 
 use Exception;
 use SAML2\AuthnRequest;
@@ -118,7 +118,7 @@ class SFO extends Auth\ProcessingFilter
         throw new Error\Exception(sprintf(
             'Could not find the metadata of an IdP with entity ID %s',
             var_export($entityId, true)
-        );
+        ));
     }
 
 
