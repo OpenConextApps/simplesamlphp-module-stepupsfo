@@ -62,7 +62,8 @@ class sspmod_stepupsfo_Auth_Process_SFO extends SimpleSAML_Auth_ProcessingFilter
             throw new Exception("Subjectid " . var_export($subjectid,true) . " does not start with urn:collab:person:");
         }
 
-        $nameid = \SAML2\XML\saml\NameID::fromArray(['Value' => $subjectid]);
+        $nameid = new \SAML2\XML\saml\NameID();
+        $nameid->setValue($subjectid);
 
         // Start the authentication request
         $this->startSFO($this->idpMetadata, $nameid, $samlstateid);
