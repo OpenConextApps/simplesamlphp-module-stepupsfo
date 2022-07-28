@@ -42,7 +42,7 @@ class SFO
      * @throws \Exception
      */
     public function __construct(
-        Configuration $config,
+        Configuration $config
     ) {
         $this->config = $config;
     }
@@ -76,7 +76,7 @@ class SFO
             'SFO - received response; Issuer = %s, InResponseTo = %s',
             var_export($issuer, true),
             var_export($inResponseTo, true)
-        );
+        ));
         Logger::debug('SFO - received response; RelayState = ' . $relaystate);
 
         $prestate = Auth\State::loadState($relaystate, 'stepupsfo:pre');
@@ -99,7 +99,7 @@ class SFO
             throw new Error\Exception(sprintf(
                 'Could not find the metadata of SFO IdP with entity ID %s',
                 var_export($entityId, true)
-            );
+            ));
         }
 
         // Validate the received response
