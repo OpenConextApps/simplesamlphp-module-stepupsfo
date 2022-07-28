@@ -7,7 +7,7 @@
     "type": "simplesamlphp-module",
     "require": {
         "simplesamlphp/composer-module-installer": "~1.1.8",
-        "simplesamlphp/simplesamlphp": ">=1.19"
+        "simplesamlphp/simplesamlphp": "^2.0"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo/issues",
