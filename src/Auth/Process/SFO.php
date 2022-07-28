@@ -27,11 +27,11 @@ use function var_export;
  */
 class SFO extends Auth\ProcessingFilter
 {
-    /** @var array */
-    private array $metadata;
+    /** @var \SimpleSAML\Configuration */
+    private Configuration $metadata;
 
-    /** @var array */
-    private array $idpMetadata;
+    /** @var \SimpleSAML\Configuration */
+    private Configuration $idpMetadata;
 
     /** @var string */
     private string $subjectidattribute;
@@ -51,7 +51,7 @@ class SFO extends Auth\ProcessingFilter
         parent::__construct($config, $reserved);
 
         $this->subjectidattribute = $config['subjectattribute'];
-        if (isset($config['skipentities']) ) {
+        if (isset($config['skipentities'])) {
             $this->skipentities = $config['skipentities'];
         }
 
@@ -69,7 +69,7 @@ class SFO extends Auth\ProcessingFilter
      */
     public function process(array &$state): void
     {
-        foreach($this->skipentities as $skip) {
+        foreach ($this->skipentities as $skip) {
             if ($skip === $state['SPMetadata']['entityid'] || in_array($skip, $state['saml:RequesterID'], true)) {
                 Logger::info('SFO - skipping SFO for entity ' . var_export($skip, true));
                 return;
@@ -80,13 +80,16 @@ class SFO extends Auth\ProcessingFilter
         $state['sfo:idp:entityid'] = $this->idpMetadata->getString('entityid');
         $samlstateid = Auth\State::saveState($state, 'stepupsfo:pre');
 
-        if (empty($state['Attributes'][$this->subjectidattribute]) ) {
+        if (empty($state['Attributes'][$this->subjectidattribute])) {
             throw new Exception("Subjectid " . $this->subjectidattribute . " not found in attributes.");
         }
 
         $subjectid = $state['Attributes'][$this->subjectidattribute][0];
-        if (substr($subjectid,0,18) !== 'urn:collab:person:' ) {
-            throw new Exception("Subjectid " . var_export($subjectid,true) . " does not start with urn:collab:person:");
+        if (substr($subjectid, 0, 18) !== 'urn:collab:person:') {
+            throw new Exception(sprintf(
+                "Subjectid %s does not start with urn:collab:person:",
+                var_export($subjectid, true)
+            ));
         }
 
         $nameid = new NameID();
@@ -138,12 +141,17 @@ class SFO extends Auth\ProcessingFilter
         $ar->setNameId($nameid);
         $ar->setRelayState($relay);
 
-        Logger::debug('Sending SAML 2 SFO AuthnRequest for ' . $nameid->getValue() .  ' to ' .
-            var_export($idpMetadata->getString('entityid'), true). ' with id ' . $ar->getId());
+        Logger::debug(sprintf(
+            'Sending SAML 2 SFO AuthnRequest for %s to %s with id %s',
+            $nameid->getValue(),
+            var_export($idpMetadata->getString('entityid'), true),
+            $ar->getId()
+        ));
 
-        $dst = $idpMetadata->getEndpointPrioritizedByBinding('SingleSignOnService',
-                [C::BINDING_HTTP_REDIRECT]
-            );
+        $dst = $idpMetadata->getEndpointPrioritizedByBinding(
+            'SingleSignOnService',
+            [C::BINDING_HTTP_REDIRECT]
+        );
 
         $ar->setDestination($dst['Location']);
 
