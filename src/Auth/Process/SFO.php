@@ -58,6 +58,7 @@ class SFO extends Auth\ProcessingFilter
         $this->idpMetadata = $this->getIdPMetadata($config['idpEntityid']);
 
         $config['AuthnContextClassRef'] = $config['loa'];
+        $config['entityid'] = $config['entityID'];
         $this->metadata = Configuration::loadFromArray($config);
     }
 
