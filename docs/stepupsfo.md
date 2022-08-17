@@ -6,6 +6,7 @@ Stepup Second Factor Only. After the first factor authentication on
 the hosted idp this filter can be invoked to verify the second factor.
 
 The module requires the following:
+
 1. Metadata for the SFO endpoint in saml20-idp-remote.
 1. Configuration of the authproc's own metadata.
 1. An attribute containing the full collabPersonId of the authenticated
@@ -87,6 +88,7 @@ said IdP for authentication.
 
 After setting the configuration up, you supply the following to the persons
 running the SFO service:
+
 - The entityid and certificate configured in the authsource above.
 - The namespace of the subjectattribute you're using (likely something like `urn:collab:person:example.org:`).
 - The AssertionConsumerService location: `<your ssp base url>/module.php/stepupsfo/acs.php`.
