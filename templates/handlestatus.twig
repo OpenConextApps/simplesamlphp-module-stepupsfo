@@ -6,30 +6,33 @@
 
 {% if status == "urn:oasis:names:tc:SAML:2.0:status:Responder" and subStatus == "urn:oasis:names:tc:SAML:2.0:status:AuthnFailed" %}
 
-	<p>{{ 'Authentication not successful:' | trans }}<br/><br/>
+    <p>{{ 'Authentication not successful:' | trans }}<br/><br/>
 
-	<strong>
-	    {{ statusMessage }}
-	</strong></p>
+    <strong>
+        {{ statusMessage }}
+    </strong></p>
 
 {% elseif status == "urn:oasis:names:tc:SAML:2.0:status:Responder" and subStatus == "urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext" %}
 
-	<p>{{ 'You could not be authenticated at the requested level.' | trans }}<br/>
+    <p>{{ 'You could not be authenticated at the requested level.' | trans }}<br/>
 
-	{{ statusMessage }}</p>
+    {{ statusMessage }}</p>
 
-	<p>{{ 'Do you have a token registered with the required level?' | trans }}<br/><br/>
-	{% trans %}Please go to the <a href="{{ selfserviceUrl }}">Selfservice Registration Portal</a>
-	to review or enroll your token.{% endtrans %}</p>
+    <p>{{ 'Do you have a token registered with the required level?' | trans }}<br/><br/>
+
+    {% if selfserviceUrl %}
+        {{ 'Please go to the <a href="%URL%">Selfservice Registration Portal</a>
+        to review or enroll your token.' | trans({'%URL%': selfserviceUrl })|raw }}</p>
+    {% endif %}
 
 {% else %}
 
-	<p>Unexpected error occurred while performing second factor authentication.<br/><br/>
-	{{ status }}<br/>
-	{{ subStatus }}<br/>
-	{{ statusMessage }}</p>
+    <p>{{ 'Unexpected error occurred while performing second factor authentication.' | trans }}<br/><br/>
+    {{ status }}<br/>
+    {{ subStatus }}<br/>
+    {{ statusMessage }}</p>
 
-	<p>Please try again or contact your support desk.</p>
+    <p>{{ 'Please try again or contact your support desk.' | trans }}</p>
 
 {% endif %}
 

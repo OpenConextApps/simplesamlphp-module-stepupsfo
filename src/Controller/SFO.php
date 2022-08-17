@@ -69,7 +69,7 @@ class SFO
             throw new Error\BadRequest('Invalid message received to SFO AssertionConsumerService endpoint.');
         }
 
-        $issuer = $response->getIssuer();
+        $issuer = $response->getIssuer()->getValue();
         $relaystate = $response->getRelayState();
         $inResponseTo = $response->getInResponseTo();
 
@@ -110,7 +110,7 @@ class SFO
             // the status of the response wasn't "success"
             Logger::debug('SFO - status response received, showing error page.');
 
-            $t = new Template($this->config, 'stepupsfo:handlestatus.php');
+            $t = new Template($this->config, 'stepupsfo:handlestatus.twig');
             $t->data['status'] = $e->getStatus();
             $t->data['subStatus'] = $e->getSubStatus();
             $t->data['statusMessage'] = $e->getStatusMessage();
