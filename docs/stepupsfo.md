@@ -17,21 +17,21 @@ SHA-256 and signed authentication requests are mandatory. Optionally
 you can add the `sfo:selfserviceurl` config parameter used in the
 feedback message when a user does not have a token registered.
 
-    $metadata['https://gateway.pilot.stepup.surfconext.nl/second-factor-only/metadata'] = [
-        'certificate' => 'sa_pilot_saml_signing_certificate_pem.crt',
+```php
+    $metadata['https://sa-gw.test.surfconext.nl/second-factor-only/metadata'] = [
+        'certificate' => 'sa_test_saml_signing_certificate_2020_pem.crt',
         'metadata-set' => 'saml20-idp-remote',
         'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
         'SingleSignOnService' => [
               0 => [
                 'Binding' => 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
-                'Location' => 'https://gateway.pilot.stepup.surfconext.nl/second-factor-only/single-sign-on',
+                'Location' => 'https://sa-gw.test.surfconext.nl/second-factor-only/single-sign-on',
               ]],
         'redirect.sign' => true,
-        // ssp has broken/fixed the fact that you could set this to null see #771
-        //'NameIDPolicy' => null,
-        
-        'sfo:selfserviceUrl' => 'https://selfservice.pilot.stepup.surfconext.nl/',
+
+        'sfo:selfserviceUrl' => 'https://sa.test.surfconext.nl/',
     ];
+```
 
 Configuration of the authproc filter could be done in any place that supports
 authproc filters, so it runs after the first factor has been authenticated.
@@ -45,6 +45,7 @@ attributes e.g. with the `core:AttributeAlter` filter. In the example the
 existing uid attribute is prefixed with the right urn and stored in the
 collabPersonId attribute. SFO is configured to read that attribute.
 
+```php
     'authproc' => [
         // prepare attribute for sfo
         24 => [
@@ -62,22 +63,23 @@ collabPersonId attribute. SFO is configured to read that attribute.
             'subjectattribute' => 'collabPersonId',
 
             // hosted sfo-sp metadata
-            'entityid' => 'https://example.org/',
+            'entityID' => 'https://example.org/',
             'certificate' => 'example.crt',
             'privatekey' => 'example.key',
             'signature.algorithm' => 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
 
             // entityid to be found in saml20-idp-remote
-            'idpEntityid' => 'https://gateway.pilot.stepup.surfconext.nl/second-factor-only/metadata',
+            'idpEntityid' => 'https://sa-gw.test.surfconext.nl/second-factor-only/metadata',
 
             // desired minimum loa
-            'loa' => 'http://pilot.surfconext.nl/assurance/sfo-level2',
+            'loa' => 'http://test.surfconext.nl/assurance/sfo-level2',
 
             // optional: list of remote entityids/requesterids for which SFO
             // should NOT be performed, instead they will just pass through.
             // 'skipentities' => [],
         ],
     ]
+```
 
 If you use the module to protect an IdP, you will want to exclude at least the
 token registration portal via the `skipentities` setting, if that portal uses
