@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SimpleSAML\Module\stepupsfo;
+namespace SimpleSAML\Module\stepupsfo\Auth\Process;
 
 use Exception;
 use SAML2\AuthnRequest;
