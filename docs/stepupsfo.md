@@ -86,6 +86,10 @@ If you use the module to protect an IdP, you will want to exclude at least the
 token registration portal via the `skipentities` setting, if that portal uses
 said IdP for authentication.
 
+When using the skipentities setting on an IdP, you must ensure that AuthnRequests
+are signed so users cannot circumvent stepup by manipulating an unsigned
+AuthnRequest.
+
 After setting the configuration up, you supply the following to the persons
 running the SFO service:
 
