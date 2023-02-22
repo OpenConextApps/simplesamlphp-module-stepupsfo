@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<psalm
+    name="SimpleSAMLphp Module stepupsfo"
+    useDocblockTypes="true"
+    errorLevel="5"
+    reportMixedIssues="false"
+>
+    <projectFiles>
+        <directory name="tests" />
+    </projectFiles>
+
+    <issueHandlers>
+        <!-- Ignore UnresolvableInclude -->
+        <UnresolvableInclude>
+            <errorLevel type="suppress">
+                <file name="tests/bootstrap.php" />
+            </errorLevel>
+        </UnresolvableInclude>
+    </issueHandlers>
+</psalm>
