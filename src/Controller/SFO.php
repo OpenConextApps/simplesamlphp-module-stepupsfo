@@ -108,17 +108,30 @@ class SFO
             $assertions = Message::processResponse($spMetadata, $idpMetadata, $response);
         } catch (Module\saml\Error $e) {
             // the status of the response wasn't "success"
-            Logger::debug('SFO - status response received, showing error page.');
+            $redirect = $idpMetadata->getOptionalBoolean('sfo:redirectToSelfserviceUrl', false);
+            $selfserviceUrl = $idpMetadata->getOptionalString('sfo:selfserviceUrl', '');
 
-            $t = new Template($this->config, 'stepupsfo:handlestatus.twig');
-            $t->data['status'] = $e->getStatus();
-            $t->data['subStatus'] = $e->getSubStatus();
-            $t->data['statusMessage'] = $e->getStatusMessage();
-            $t->data['selfserviceUrl'] = $idpMetadata->getOptionalString('sfo:selfserviceUrl', '');
+            if ($redirect &&
+                !empty($selfserviceUrl) &&
+                $e->getStatus() == 'urn:oasis:names:tc:SAML:2.0:status:Responder' &&
+                $e->getSubStatus() == 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext') {
+                Logger::debug('SFO - token of demanded LOA is not available, redirecting to selfserviceUrl.');
 
-            return $t;
+                header('Location: '. $selfserviceUrl);
+                exit();
+
+            } else {
+                Logger::debug('SFO - status response received, showing error page.');
+
+                $t = new Template($this->config, 'stepupsfo:handlestatus.twig');
+                $t->data['status'] = $e->getStatus();
+                $t->data['subStatus'] = $e->getSubStatus();
+                $t->data['statusMessage'] = $e->getStatusMessage();
+                $t->data['selfserviceUrl'] = $selfserviceUrl;
+
+                return $t;
+            }
         }
-
         Logger::debug('SFO - successful response received, resume processing');
         Auth\ProcessingChain::resumeProcessing($prestate);
     }
