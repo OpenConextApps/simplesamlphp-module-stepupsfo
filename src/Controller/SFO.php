@@ -15,6 +15,7 @@ use SimpleSAML\Logger;
 use SimpleSAML\Metadata\MetaDataStorageHandler;
 use SimpleSAML\Module;
 use SimpleSAML\Module\saml\Message;
+use SimpleSAML\Utils;
 use SimpleSAML\XHTML\Template;
 
 use function sprintf;
@@ -117,8 +118,8 @@ class SFO
                 $e->getSubStatus() == 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext') {
                 Logger::debug('SFO - token of demanded LOA is not available, redirecting to selfserviceUrl.');
 
-                header('Location: '. $selfserviceUrl);
-                exit();
+                $httpUtils = new Utils\HTTP();
+                return $httpUtils->redirectTrustedURL($selfserviceUrl);
 
             } else {
                 Logger::debug('SFO - status response received, showing error page.');
