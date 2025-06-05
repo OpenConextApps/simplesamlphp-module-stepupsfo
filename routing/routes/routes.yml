@@ -1,7 +1,13 @@
+---
+
 stepupsfo-legacy-acs:
-    path:       /acs.php
-    defaults:   { _controller: 'SimpleSAML\Module\stepupsfo\Controller\SFO::acs' }
+  path: /acs.php
+  defaults: {
+    _controller: 'SimpleSAML\Module\stepupsfo\Controller\SFO::acs'
+  }
 
 stepupsfo-acs:
-    path:       /acs
-    defaults:   { _controller: 'SimpleSAML\Module\stepupsfo\Controller\SFO::acs' }
+  path: /acs
+  defaults: {
+    _controller: 'SimpleSAML\Module\stepupsfo\Controller\SFO::acs'
+  }
