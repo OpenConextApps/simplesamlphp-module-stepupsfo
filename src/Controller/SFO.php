@@ -112,15 +112,16 @@ class SFO
             $redirect = $idpMetadata->getOptionalBoolean('sfo:redirectToSelfserviceUrl', false);
             $selfserviceUrl = $idpMetadata->getOptionalString('sfo:selfserviceUrl', '');
 
-            if ($redirect &&
-                !empty($selfserviceUrl) &&
-                $e->getStatus() == 'urn:oasis:names:tc:SAML:2.0:status:Responder' &&
-                $e->getSubStatus() == 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext') {
+            if (
+                $redirect
+                && !empty($selfserviceUrl)
+                && $e->getStatus() == 'urn:oasis:names:tc:SAML:2.0:status:Responder'
+                && $e->getSubStatus() == 'urn:oasis:names:tc:SAML:2.0:status:NoAuthnContext'
+            ) {
                 Logger::debug('SFO - token of demanded LOA is not available, redirecting to selfserviceUrl.');
 
                 $httpUtils = new Utils\HTTP();
                 return $httpUtils->redirectTrustedURL($selfserviceUrl);
-
             } else {
                 Logger::debug('SFO - status response received, showing error page.');
 
