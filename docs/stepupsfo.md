@@ -96,3 +96,28 @@ running the SFO service:
 - The entityid and certificate configured in the authsource above.
 - The namespace of the subjectattribute you're using (likely something like `urn:collab:person:example.org:`).
 - The AssertionConsumerService location: `<your ssp base url>/module.php/stepupsfo/acs.php`.
+
+Conditional LOA
+---------------
+
+In addition to setting the `loa` setting for the authproc's config, you can also add an extra `loa` attribute to the user's attributes, for instance by adding the attribute to the LDAP or setting it using core:PHP or any other auth proc. You should of course make sure you put this auth proc before your SFO-related auth procs.
+
+Example:
+
+```php
+    'authproc' => [
+        23 => [
+            'class' => 'core:PHP',
+            'code' => '
+                if (someCondition) {
+                    $attributes["loa"] = "http://test.surfconext.nl/assurance/sfo-level3";
+                } else {
+                    $attributes["loa"] = "http://test.surfconext.nl/assurance/sfo-level1.5";
+                }
+            '
+        ],
+    ],
+    // other authprocs for SFO
+```
+
+The `loa` set in the authproc config is used as the default (optional). The `loa` set in the user's attributes will take precedence. Setting the `loa` to an empty string will skip the SFO. Not setting the `loa` will result in an error.

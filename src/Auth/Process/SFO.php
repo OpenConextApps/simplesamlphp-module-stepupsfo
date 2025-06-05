@@ -17,6 +17,7 @@ use SimpleSAML\Metadata\MetaDataStorageHandler;
 use SimpleSAML\Module;
 use SimpleSAML\Module\saml\Message;
 
+use function array_key_exists;
 use function in_array;
 use function sprintf;
 use function substr;
@@ -32,6 +33,9 @@ class SFO extends Auth\ProcessingFilter
 
     /** @var \SimpleSAML\Configuration */
     private Configuration $idpMetadata;
+
+    /** @var array */
+    private array $config = [];
 
     /** @var string */
     private string $subjectidattribute;
@@ -57,9 +61,8 @@ class SFO extends Auth\ProcessingFilter
 
         $this->idpMetadata = $this->getIdPMetadata($config['idpEntityid']);
 
-        $config['AuthnContextClassRef'] = $config['loa'];
         $config['entityid'] = $config['entityID'];
-        $this->metadata = Configuration::loadFromArray($config);
+        $this->config = $config;
     }
 
 
@@ -76,6 +79,24 @@ class SFO extends Auth\ProcessingFilter
                 return;
             }
         }
+
+        if (array_key_exists('loa', $state['Attributes'])) {
+            // LOA is present in User's attributes
+            $loa = $state['Attributes']['loa'];
+        } else if (array_key_exists('loa', $this->config)) {
+            // LOA set in SFO config is default.
+            $loa = $this->config['loa'];
+        } else {
+            throw new Exception("SFO - No LOA set.");
+        }
+        if (empty($loa)) {
+            // LOA is set to an empty string, skip SFO
+            return;
+        }
+        Logger::info('SFO - requested LOA: ' . $loa);
+
+        $this->config['AuthnContextClassRef'] = $loa;
+        $this->metadata = Configuration::loadFromArray($this->config);
 
         $state['sfo:sp:metadata'] = $this->metadata;
         $state['sfo:idp:entityid'] = $this->idpMetadata->getString('entityid');
