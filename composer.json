@@ -30,12 +30,12 @@
     "require": {
         "php": "^8.2",
 
-        "simplesamlphp/simplesamlphp": "~2.5.0-rc1",
-        "simplesamlphp/saml2-legacy": "~4.19.0"
+        "simplesamlphp/simplesamlphp": "~2.5.0-rc3",
+        "simplesamlphp/saml2-legacy": "~4.19.1"
     },
     "require-dev": {
-        "simplesamlphp/composer-module-installer": "~1.5.0",
-        "simplesamlphp/simplesamlphp-test-framework": "^1.10.3"
+        "simplesamlphp/composer-module-installer": "~1.5",
+        "simplesamlphp/simplesamlphp-test-framework": "~1.10"
     },
     "support": {
         "issues": "https://github.com/simplesamlphp/simplesamlphp-module-stepupsfo/issues",
