@@ -31,11 +31,11 @@
     "require": {
         "php": "^8.3",
 
-        "simplesamlphp/simplesamlphp": "~2.5@RC",
-        "simplesamlphp/saml2-legacy": "~4.19"
+        "simplesamlphp/simplesamlphp": "~2.5",
+        "simplesamlphp/saml2-legacy": "~4.20"
     },
     "require-dev": {
-        "simplesamlphp/composer-module-installer": "~1.6",
+        "simplesamlphp/composer-module-installer": "~1.7",
         "simplesamlphp/simplesamlphp-test-framework": "~1.11"
     },
     "support": {
